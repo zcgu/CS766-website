@@ -9,7 +9,7 @@ function functionOne() {
   }
 
   httpRequest.onreadystatechange = alertContents;
-  httpRequest.open("GET", "./main", true);
+  httpRequest.open("GET", "./test.py", true);
   httpRequest.send();
 }
 
