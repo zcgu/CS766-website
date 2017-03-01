@@ -1,6 +1,12 @@
 var httpRequest;
 
-function functionOne() { 
+function seamCarving1d() { 
+  lines = document.getElementById("lines").value;
+  if (lines < 1 || lines > 300) {
+    alert("please enter a number between 1 and 300");
+    return;
+  }
+
   httpRequest = new XMLHttpRequest();
 
   if (!httpRequest) {
@@ -8,17 +14,23 @@ function functionOne() {
     return false;
   }
 
-  httpRequest.onreadystatechange = alertContents;
-  httpRequest.open("GET", "./test.py", true);
+  httpRequest.onreadystatechange = seamCarving1dResult;
+  httpRequest.open("GET", "/seamcarving1d" + "?" + "lines=" + lines, true);
   httpRequest.send();
+
+  document.getElementById("result-txt").innerHTML = "Please wait...";
+  document.getElementById("result-img").src = "";
 }
 
-function alertContents() {
+function seamCarving1dResult() {
   if (httpRequest.readyState === XMLHttpRequest.DONE) {
+
     if (httpRequest.status === 200) {
-      alert(httpRequest.responseText);
-    } else {
-      alert('Fail to get the result. Please try again!');
+      document.getElementById("result-img").hidden = false;
+      document.getElementById("result-img").src = httpRequest.responseText;
+      document.getElementById("result-txt").innerHTML = "Result";
+   } else {
+      document.getElementById("result-txt").innerHTML = "Fail to get the result. Please try again!";
     }
   }
 }

@@ -1,6 +1,10 @@
 import os.path
 import tornado.ioloop
 import tornado.web
+import os, sys
+lib_path = os.path.abspath(os.path.join('code'))
+sys.path.append(lib_path)
+import uuid
 
 from skimage import data, io, filters, transform, color
 import skimage as skimage
@@ -26,18 +30,16 @@ class MainHandler(tornado.web.RequestHandler):
 class SeamCarving1d(tornado.web.RequestHandler):
 
     def get(self):       
-        username = self.get_argument('username')
-        designation = self.get_argument('designation')
-        
-        img = io.imread('CS766_Project/pic3.jpg')
-        eimg = filters.sobel(color.rgb2gray(img))
-#eimg = _get_eimg(img)   # cython get_eimg
-#eimg = py_get_eimg(img, e_func)   # python get_eimg
-        img = _seam_carving(img, eimg, 238)
+        lines = int(self.get_argument('lines'))
 
-        io.imsave('remove238lines_get_eimg.png', img)
+        img = io.imread('static/pic3.jpg')
+        eimg = filters.sobel(color.rgb2gray(img))
+        img = _seam_carving(img, eimg, lines)
+
+        name = str(uuid.uuid4()) + '.jpg'
+        io.imsave('static/tmp/' + name , img)
         
-        self.write("Wow " + username + " you're a " + designation)
+        self.write("tmp/" + name )
 
     def post(self):
         username = self.get_argument('username')
