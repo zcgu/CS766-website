@@ -16,6 +16,7 @@ class Application(tornado.web.Application):
         handlers = [
             (r"/", MainHandler),
             (r"/seamcarving1d", SeamCarving1d),
+            (r"/uploadimg", UploadImg),
         ]
         settings = dict(
             # template_path=os.path.join(os.path.dirname(__file__), "templates"),
@@ -30,9 +31,13 @@ class MainHandler(tornado.web.RequestHandler):
 class SeamCarving1d(tornado.web.RequestHandler):
 
     def get(self):       
-        lines = int(self.get_argument('lines'))
+        self.write("Hello World")
 
-        img = io.imread('static/pic3.jpg')
+    def post(self):
+        lines = int(self.get_argument('lines'))
+        pic = self.get_argument('pic')
+
+        img = io.imread('static/' + pic)
         eimg = filters.sobel(color.rgb2gray(img))
         img = _seam_carving(img, eimg, lines)
 
@@ -41,10 +46,22 @@ class SeamCarving1d(tornado.web.RequestHandler):
         
         self.write("tmp/" + name )
 
+class UploadImg(tornado.web.RequestHandler):
+
+    def get(self):       
+        self.write("Hello World")
+
     def post(self):
-        username = self.get_argument('username')
-        designation = self.get_argument('designation')
-        self.write("Wow " + username + " you're a " + designation)
+        file1 = self.request.files['pic'][0]
+        original_fname = file1['filename']
+        extension = os.path.splitext(original_fname)[1]
+        fname = str(uuid.uuid4())
+        final_filename= fname+extension
+        output_file = open("static/uploads/" + final_filename, 'w')
+        output_file.write(file1['body'])
+        output_file.close()
+
+        self.write("uploads/" + final_filename )
 
 if __name__ == "__main__":
     # app = make_app()

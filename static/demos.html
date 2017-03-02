@@ -41,15 +41,22 @@
 
       <section>
 
+      <h2>Seam Carving</h2>
       <p>Remove  <input type="number" id="lines" value="100"> lines.<button onClick="seamCarving1d();">Run!</button></p>
       
 
+      <form id="myform" name="myform" action="/uploadimg">
+        <p>Upload image
+        <input type="file" name="pic" accept="image/*">
+        <input type="submit" onclick="return uploadImg(this.form);"></p>
+      </form>
 
-      <p>Origin Figure</p>
-      <img src="pic3.jpg">
+      <p id="origin-txt">Origin Figure</p>
+      <img id="origin-img" src="pic3.jpg">
 
       <p id="result-txt"></p>
       <img id="result-img" src="" hidden="true">
+
 
 
       </section>
