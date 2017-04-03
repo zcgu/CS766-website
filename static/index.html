@@ -1,207 +1,66 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>CS766 Project Page</title>
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width">
-    <!--[if lt IE 9]>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <title>CS766 Project Page</title>
+
+  <link rel="stylesheet" href="stylesheets/styles.css">
+  <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+  <meta name="viewport" content="width=device-width">
+  <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-  </head>
-  <body>
-    <div class="wrapper">
-      <header>
-        <h1>CS766 Project Page</h1>
-        <h2 align="right">--Seam Carving</h2>
-        <p>Team Members:<br/>Chang Guo<br/>Haiyun Jin<br/>Zhicheng Gu</p>
-        <p class="view"><a href="https://github.com/zcgu/CS766-Project-Public" target="_blank">View the Project on GitHub <small>zcgu/CS766-Project-Public</small></a></p>
-        <ul>
-          <li><a href="demos.html">View <strong>Demos</strong></a></li>
-        </ul>
+</head>
 
-        <ul>
-          <li><a href="index.html">View<strong>Project Proposal</strong></a></li>
-        </ul>
-        <ul>
-          <!-- <li ><a href="index.html">View <strong>Mid-Term Report</strong></a></li> -->
-          <li ><a href="index.html" class="disable">View <strong class="disable">Mid-Term Report</strong></a></li>
-        </ul>
-        <ul>
-          <li><a href="index.html" class="disable">View <strong class="disable">Final Report</strong></a></li>
-        </ul>
+<body>
+  <div class="wrapper">
+    <header>
+      <h1>CS766 Project Page</h1>
+      <h2 align="right">--Seam Carving</h2>
+      <p>Team Members:<br/>Chang Guo<br/>Haiyun Jin<br/>Zhicheng Gu</p>
+      <p class="view"><a href="https://github.com/zcgu/CS766-Project-Public" target="_blank">View the Project on GitHub <small>zcgu/CS766-Project-Public</small></a></p>
+      <ul>
+        <li><a href="demos.html">View <strong>Demos</strong></a></li>
+      </ul>
+
+      <ul>
+        <li><a href="proposal.html">View<strong>Project Proposal</strong></a></li>
+      </ul>
+      <ul>
+        <!-- <li ><a href="index.html">View <strong>Mid-Term Report</strong></a></li> -->
+        <li><a href="index.html">View <strong>Mid-Term Report</strong></a></li>
+      </ul>
+      <ul>
+        <li><a href="index.html" class="disable">View <strong class="disable">Final Report</strong></a></li>
+      </ul>
 
 
-      </header>
-      <section>
+    </header>
+    <section>
       <h1>
-      Project Proposal
+        Project Mid-Term report
       </h1>
 
-<p> View the <a href="Proposal.pdf" class="commit-link">PDF version</a>. </p>
-      <h2>
-      Problem: 
-      </h2>
-
-<p>Effective resizing of image with content awareness (reimplementing seam carving: 
-<a href="http://www.faculty.idc.ac.il/arik/SCWeb/imret/" class="commit-link" target="_blank">Avidan & Shamir 07</a>)
-</p>
-
-<h2>Why: </h2>
-<p>
-The diversity and versatility of display devices today imposes new demands on digital media. For instance, webpage browsed on phones and laptops shows can automatically resize the letters and use different layout to ensure the comfortness for the user. While, standard image scaling is not sufficient since the contents are affected uniformly. With a smaller device, we better show more important content to emphasize the theme the image wants to convey. </p>
-
-<p>
-The effective content-aware resizing algorithm has lots of appealing applications, such as aspect ratio change, image retargeting, content amplification, or object removal. </p>
-
-<p>
-There are several proposed methods such as Scaling, Cropping, Column removal, Pixel removal or Optimal removal. Scaling preserves all information but it leads to unrealistic aspect ratio when only one dimension is scaled, the objects in the image looks uncomfortable. Cropping is such a solution when contents are centralized with well-defined shape, but it can not handle situations where the contents are spreaded. While column removal can preserve the irregular shape and details to large extends, it creates artificial incontinuity along smooth boundary. Others like Pixel removal and Optimal removal has no guarantee of preserving the important content and, even worse, the geometry of the image.
-</p>
-
-<img src="proposal1.png" alt="Comparison of different image resizing methods">
-
-<p style="text-align:center">Figure 1: Comparison of different image resizing methods</p>
-
-<h2>Steps:</h2>
-
-<p>
-We are planning to do the project in the following steps. The Step 1 and Step 2 contain the main algorithm we need to finish. The Step 3 - Step 7 are some possible applications taken from the original Seam Carving paper. We would also like to try to implement other interesting applications in Step 8. If we still have time after finishing the main algorithm and the applications, we would try to implement the seam carving in video. We plan to implement the algorithm in Matlab or Python.
-</p>
-
-<ol>
-<li>
-<p>one dimension seam carving</p>
-
-<p>
-The one dimension seam carving is the basic content-aware resizing algorithm. This approach removes one seam in the image each time. The points to be removed is selected by calculating the energy function.
-</p>
-</li>
-
-<li>
-<p>two dimension seam carving</p>
-
-<p>
-The two dimension seam carving is basically an extension of one dimension seam carving. However, one thing that we need to consider is order of removing the horizontal lines and vertical lines.
-</p>
-
-</li>
-
-<li>
-<p>enlarge</p>
-
-<p>
-This application implements an image enlarging system. To enlarge an image, we need to approximate an ‘inversion’ of this time evolution and insert new ‘artificial’ seams to the image. 
-</p>
-</li>
-
-<li>
-<p>content amplification</p>
-
-<p>
-Besides enlarging the size of the image, seam carving can be used to amplify the content of the image while maintain its size. This can be done by scaling the image first and then do a seam carving to set it back to the origin size.
-</p>
-</li>
-
-<li>
-<p>Gradient image</p>
-
-<p>
-seam carving + poisson solver</p>
-
-</li>
-
-<li>
-<p>Object removal</p>
-
-<p>
-This application is an interesting idea that we want to spend more time on. The algorithm for object removal need to be done with a user interface. The user will draw a mask on the object to be removed. Then the we will run seam carving to remove the mask while maintain the change of other parts unnoticeable.
-</p>
-</li>
-
-<li>
-<p>Multi-size</p>
-
-<p>
-Sometimes users don't know the final size of the image. We cannot compute the resize images again and again since it is going to cause too much time. We need to use a dynamic programming approach to solve this problem.
-</p>
-</li>
-
-<li>
-<p>other possible applications</p>
-
-<p>
-We are also interested in finding and implementing other awesome ideas in the seam carving filed.
-</p>
-</li>
-
-<li>
-<p>Website demo</p>
-
-<p>
-We will create an interactive online tools for user to upload their own images and resize to desired dimension.
-</p>
-</li>
-
-<li>
-<p>Video</p>
-</li>
-</ol>
+      <img src="imgs/mid1.png" alt="Comparison of different image resizing methods">
+      <img src="imgs/mid2.png" alt="Comparison of different image resizing methods">
+      <img src="imgs/mid3.png" alt="Comparison of different image resizing methods">
+      <img src="imgs/mid4.png" alt="Comparison of different image resizing methods">
+      <img src="imgs/mid5.png" alt="Comparison of different image resizing methods">
+      <img src="imgs/mid6.png" alt="Comparison of different image resizing methods">
+      <img src="imgs/mid7.png" alt="Comparison of different image resizing methods">
+      <img src="imgs/mid8.png" alt="Comparison of different image resizing methods">
 
 
-<h2>Time Table</h2>
 
-<table>
-  <tbody>
-  <tr>
-      <th class="table-first-col">Date</th>
-  <th>Tasks</th>
-    </tr>
-    <tr>
-      <td>Feb 07 - Feb 15</td>
-      <td>Project Proposal. Discuss about steps and timeline for the project, and applications we want to implement. Create web page.</td>
-    </tr>
-    <tr>
-      <td>Feb 16 - March 01</td>
-      <td>Write code to compute the edge-based measure for an input image. Implement the dynamic programming code to find the optimal seam to remove along one direction. Compare different energy functions for content aware resizing.
-</td>
-    </tr>
-    <tr>
-      <td>March 02 - March 29</td>
-      <td>Complete two dimension seam carving. Use it to reduce the width of an image and compare it with other algorithms like Crop, Column, Pixel and Optimal carving. Complete the image enlarging and content amplification application. Write Mid-term report.
-</td>
-    </tr>
-    <tr>
-      <td>March 30 - April 15</td>
-      <td>Implement seam carving in the gradient domain and object removal applications.</td>
-    </tr>
-    <tr>
-      <td>April 16 - April 23</td>
-      <td>Implement seam carving for multi-size images, which allows the user to retarget an image in a web page. If time allowed, we might extend seam carving to videos.
-Prepare for final presentation.</td>
-    </tr>
-    <tr>
-      <td>April 24 - May 08</td>
-      <td>Complete project webpage.</td>
-    </tr>
-    
-</tbody>
-</table>
+    </section>
+    <footer>
+      <p>This website is edited from <a href="https://github.com/orderedlist/minimal" target="_blank">Minimal Theme</a> template</p>
+      <p><small>The original project is maintained by <a href="http://github.com/orderedlist">Steve Smith</a></small></p>
+    </footer>
+  </div>
+  <script src="javascripts/scale.fix.js"></script>
+</body>
 
-<h2>Contribution</h2>
-<ul>
-<li>Haiyun writes the introduction.</li>
-<li>Zhicheng proposed the steps we will follow to the solution.</li>
-<li>Chang summarized the timetable.</li>
-</ul>
-      </section>
-      <footer>
-        <p>This website is edited from <a href="https://github.com/orderedlist/minimal" target="_blank">Minimal Theme</a> template</p>
-        <p><small>The original project is maintained by <a href="http://github.com/orderedlist">Steve Smith</a></small></p>
-      </footer>
-    </div>
-    <script src="javascripts/scale.fix.js"></script>
-  </body>
 </html>
