@@ -44,91 +44,193 @@
         </h1>
 
         <p>
-        View the presentation in <a href="https://docs.google.com/presentation/d/1uVGt5F324b_YAargpzSjwu9XhNj_r7_WaHg3FeiaTnI/edit?usp=sharing" target="_blank">Google Slides</a>
+          View the presentation in <a href="https://docs.google.com/presentation/d/1uVGt5F324b_YAargpzSjwu9XhNj_r7_WaHg3FeiaTnI/edit?usp=sharing" target="_blank">Google Slides</a>.
+          Try <a href="demos.html">Demos</a> by yourself.
         </p>
 
         <h2>
-          Summay:
+          Motivation:
         </h2>
+        <p>
+          The diversity and versatility of display devices today imposes new demands on digital media. For instance, webpage browsed
+          on phones and laptops shows can automatically resize the letters and use different layout to ensure the comfortness
+          for the user. While, standard image scaling is not sufficient since the contents are affected uniformly. With a smaller
+          device, we better show more important content to emphasize the theme the image wants to convey. </p>
 
-        <ol>
-          <li>
-            <img src="imgs/proposal1.png" alt="Comparison of different image resizing methods">
-          </li>
-
-          <li>
-            <img src="imgs/final1.png" alt="">
-          </li>
-          <li>
-            <img src="imgs/final2.png" alt="">
-          </li>
-          <li>
-            <img src="imgs/final3.png" alt="">
-          </li>
-          <li>
-            <img src="imgs/final4.png" alt="">
-          </li>
-          <li>
-            <img src="imgs/final5.png" alt="">
-          </li>
-          <li>
-            <img src="imgs/final6.png" alt="">
-          </li>
-          <li>
           <p>
-          Since each pixel can be removed both by vertical or horizontal seams, the order seam removal of 2 dimensional resize matters.
-          In this implementation, we employed dynamic programming method to find the best remove order.
-          </p>
-            <center><img src="imgs/final7.png" alt="" width="75%"></center>
-          </li>
-          <li>
-            <img src="imgs/final8.png" alt="">
-          </li>
-          <li>
-            <img src="imgs/final9.png" alt="">
-          </li>
-          <li>
-            <img src="imgs/final10.png" alt="">
-          </li>
-          <li>
-            <img src="imgs/final11.png" alt="">
-          </li>
+            The effective content-aware resizing algorithm has lots of appealing applications, such as aspect ratio change, image retargeting,
+            content amplification, or object removal. </p>
 
-          <li>
-          <iframe src="https://drive.google.com/file/d/0B_t4gw-j_CWXRmVsMjRVN2ZIckE/preview" width="640" height="480"></iframe>
-          </li>
+            <p>
+              There are several proposed methods such as Scaling, Cropping, Column removal, Pixel removal or Optimal removal. Scaling preserves
+              all information but it leads to unrealistic aspect ratio when only one dimension is scaled, the objects in the image
+              looks uncomfortable. Cropping is such a solution when contents are centralized with well-defined shape, but it can
+              not handle situations where the contents are spreaded. While column removal can preserve the irregular shape and
+              details to large extends, it creates artificial incontinuity along smooth boundary. Others like Pixel removal and
+              Optimal removal has no guarantee of preserving the important content and, even worse, the geometry of the image.
+            </p>
 
-          <li>
-          <iframe src="https://drive.google.com/file/d/0B_t4gw-j_CWXMTJyaC1TZ1FYSHM/preview" width="640" height="480"></iframe>
-          <iframe src="https://drive.google.com/file/d/0B_t4gw-j_CWXRldxeUNOMnh5S0U/preview" width="640" height="480"></iframe>
-          </li>
-          
-     
-        </ol>
+            <img src="imgs/proposal1.png" alt="Comparison of different image resizing methods">
 
-       
-        <h2>References</h2>
+            <p style="text-align:center">Figure 1: Comparison of different image resizing methods</p>
 
-        <ol>
-          <li>
-            Avidan, Shai, and Ariel Shamir. "Seam carving for content-aware image resizing." ACM Transactions on graphics (TOG). Vol. 26. No. 3. ACM, 2007.
-            <a href="https://doi.org/10.1145/1276377.1276390" target="_blank">https://doi.org/10.1145/1276377.1276390</a>
-          </li>
-          <li>
-            scikit-image Python package: <a href="http://scikit-image.org/" target="_blank">http://scikit-image.org/</a>
-          </li>
-          <li>
-            Google Images
-          </li>
-        </ol>
+            <h2>
+              Method:
+            </h2>
 
-      </section>
-      <footer>
-        <p>This website is edited from <a href="https://github.com/orderedlist/minimal" target="_blank">Minimal Theme</a> template</p>
-        <p><small>The original project is maintained by <a href="http://github.com/orderedlist" target="_blank">Steve Smith</a></small></p>
-      </footer>
-    </div>
-    <script src="javascripts/scale.fix.js"></script>
-  </body>
 
-  </html>
+            <ol>
+
+              <li>
+                <p> 1-D Seam Carving</p>
+
+                <p>The key part of the seam carving algorithm is how to find the best seam to remove.</p>
+
+                <img src="imgs/final1.png" alt="">
+                <p style="text-align:center">Figure 2: The best seam to remove</p>
+
+                <p>
+                  We use edge-base measure for input measure. 
+                  We calculate the energy map by e(i) = gradient(x) + gradient(y).
+                </p>
+                <img src="imgs/final2.png" alt="">
+                <p style="text-align:center">Figure 3: Energy map</p>
+                
+                <p>
+                  After get the energy map, we need to get the optimal seam.
+                  The optimal seam is the seam with the minimum accumulate enery.
+                  The process to get the optimal seam is shown in the following figures.
+                  We use dynamic programming method to find the optimal seam.
+                  The first step is traverse the image from the second row to the last row.
+                  For each cell in the seam energy map, its value is equal to the minimum value of its neighbor in the last row adding the corresponding energy in the energy map.
+                </p>
+                <img src="imgs/final3.png" alt="">
+                <p style="text-align:center">Figure 4: Energy map and seam energy map</p>
+                
+                <img src="imgs/final4.png" alt="">
+                <p style="text-align:center">Figure 5: The best seam to remove in the seam energy map</p>
+                
+                <p>
+                  The result of 1-D seam carving is shown in the following figure.
+                </p>
+                <img src="imgs/final5.png" alt="">
+                <p style="text-align:center">Figure 6: The result of 1-D seam carving</p>
+                
+                <img src="imgs/final6.png" alt="">
+                <p style="text-align:center">Figure 7: Compare of different image resize mathod</p>
+
+              </li>
+              <li>
+                <p>
+                  Since each pixel can be removed both by vertical or horizontal seams, the order seam removal of 2 dimensional resize matters.
+                  In this implementation, we employed dynamic programming method to find the best remove order.
+                  Upon the request of a given size, which m columns and n row to be removed, the order of removal is determined from the dp table and the total computing time is O(m+n).
+                </p>
+                <center><img src="imgs/final7.png" alt="" width="75%"></center>
+                <p style="text-align:center">Figure 8: Removalorder table</p>
+                
+                <p>
+                  The result of 2-D seam carving is shown in the following figure.
+                </p>
+                <img src="imgs/final8.png" alt="">
+                <p style="text-align:center">Figure 9: Result of 2-D seam carving</p>
+
+              </li>
+            </ol>
+
+            <h2>
+              Applications:
+            </h2>
+
+            <ol>
+              <li>
+                <p>Image enlargement</p>
+
+                <p>
+                  Find the first k seams for removal, then duplicate them in order. Compared with rescale directly, seam carving achieves better results.
+                </p>
+                <img src="imgs/final9.png" alt="">
+                <p style="text-align:center">Figure 10: Result of image enlargement</p>
+              </li>
+              
+              <li>
+              <p>Content Amplification</p>
+
+              <p>
+              Apply standard scaling to image, then do seam carving on scaled image to carve back to its’ original size.
+              </p>
+                <img src="imgs/final10.png" alt="">
+                <p style="text-align:center">Figure 11: Result of content amplification</p>
+
+              </li>
+              
+              <li>
+              <p>Object Removal</p>
+
+              <p>
+              The seam carving algorithm can also used to remove an certain object in an image.
+              To remove an object in an image, we first need to circle the object in the image.
+              In the following figure, the original image is the image on the top left, while the object to remove is shown in the bottom left.
+              After get the the object, we will set the energy of these points to negetive infinite.
+              Then we can do a common seam carving over the image.
+              Since the energy of the object is already set to negetive infinite, then the first few seam we remove will definitely cross the object.
+              After we remove all of the points of the object, the seam carving process is stopped.
+              Now we get the result image, which is the one on the top right.
+              </p>
+
+                <img src="imgs/final11.png" alt="">
+                <p style="text-align:center">Figure 12: Result of object removal</p>
+              </li>
+
+              <li>
+              <p>Multi-size images</p>
+
+              <p>
+              So far we have assumed that the user knows the target size ahead of time, but this might not be possible in some cases. Consider, for example, an image embedded in a web page. The web designer does not know, ahead of time, at what resolution the page will be displayed and therefore, cannot generate a single target image. In a different scenario, the user might want to try different target sizes and choose the one most suitable for his or her needs.
+              </p>
+                <iframe src="https://drive.google.com/file/d/0B_t4gw-j_CWXRmVsMjRVN2ZIckE/preview" width="640" height="480"></iframe>
+              </li>
+
+              <li>
+              <p>Seam Carving of Video</p>
+
+              <p>
+              Below is a naive result of video seam carving.
+              The first video is the original video and the second one is the video after seam carving.
+              The result is not very perfect since we are running seam carving algorithm for each frame independently.
+              To get a better result, we shuold add relation between the seams in each frames.
+              </p>
+              
+                <iframe src="https://drive.google.com/file/d/0B_t4gw-j_CWXMTJyaC1TZ1FYSHM/preview" width="640" height="480"></iframe>
+                <iframe src="https://drive.google.com/file/d/0B_t4gw-j_CWXRldxeUNOMnh5S0U/preview" width="640" height="480"></iframe>
+              </li>
+
+
+            </ol>
+
+
+            <h2>References</h2>
+
+            <ol>
+              <li>
+                Avidan, Shai, and Ariel Shamir. "Seam carving for content-aware image resizing." ACM Transactions on graphics (TOG). Vol. 26. No. 3. ACM, 2007.
+                <a href="https://doi.org/10.1145/1276377.1276390" target="_blank">https://doi.org/10.1145/1276377.1276390</a>
+              </li>
+              <li>
+                scikit-image Python package: <a href="http://scikit-image.org/" target="_blank">http://scikit-image.org/</a>
+              </li>
+              <li>
+                Google Images
+              </li>
+            </ol>
+
+          </section>
+          <footer>
+            <p>This website is edited from <a href="https://github.com/orderedlist/minimal" target="_blank">Minimal Theme</a> template</p>
+            <p><small>The original project is maintained by <a href="http://github.com/orderedlist" target="_blank">Steve Smith</a></small></p>
+          </footer>
+        </div>
+        <script src="javascripts/scale.fix.js"></script>
+      </body>
+
+      </html>
