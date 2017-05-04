@@ -122,9 +122,7 @@
               </li>
               <li>
                 <p>
-                  Since each pixel can be removed both by vertical or horizontal seams, the order seam removal of 2 dimensional resize matters.
-                  In this implementation, we employed dynamic programming method to find the best remove order.
-                  Upon the request of a given size, which m columns and n row to be removed, the order of removal is determined from the dp table and the total computing time is O(m+n).
+                  Suppose a resize task is to change a mxn image to m’xn’, where m’< m and n’< n. The solution is to remove m-m’ vertical seams and n-n’ horizontal seams. Since each pixel can be removed both by vertical or horizontal seams, the order seam removal of 2 dimensional resize matters. Do we remove all the vertical seams and then the horizontal? Or alternatively one by one? Or two by two? None of the proposed solution takes the change of the image into consideration although some of them works well enough most of time. In this implementation, we employed dynamic programming method to find the optimal remove order. Upon the request of a given size, which m-m’ columns and n-n’ rows to be removed, the order of removal is determined from the DP table built by trying out all combinations and the total computing time is O(m+n). This has a major advantage that the enumeration is time consuming. While, this can be advantage if the DP table is saved. The DP table is small in size by nature. Once the DP table is built and saved, if the user change her mind and wants to retarget the image to other size, we don’t have to recalculated table again. If few seams are to be removed, the optimal remove order can directly read from the table. If more seams are to be removed, we just update the DP table at lower cost.
                 </p>
                 <center><img src="imgs/final7.png" alt="" width="75%"></center>
                 <p style="text-align:center">Figure 8: Removalorder table</p>
@@ -186,7 +184,15 @@
               <p>Multi-size images</p>
 
               <p>
-              So far we have assumed that the user knows the target size ahead of time, but this might not be possible in some cases. Consider, for example, an image embedded in a web page. The web designer does not know, ahead of time, at what resolution the page will be displayed and therefore, cannot generate a single target image. In a different scenario, the user might want to try different target sizes and choose the one most suitable for his or her needs.
+              So far, we have assumed that the user knows the target size ahead of time, but this might not be possible in some cases. Consider, for example, an image embedded in a web page. The web designer does not know, ahead of time, at what resolution the page will be displayed and therefore, cannot generate a single target image. In a different scenario, the user might want to try different target sizes and choose the one most suitable for his or her needs and the demand is real-time retarget without noticeable delay. 
+              </p>
+
+              <p>
+              Currently, it takes about 2 seconds to retarget a 560x360 pixels  image to 360x360 pixels. The user will experience a 2 second freeze if she changes the size of the picture. To alleviate this time delay, we implemented the pre-processed multi-size retarget image approach. The idea is to pre-retarget the image from mxn to mx1, or mxn to 1xn. During the removal, a sequence number is assigned to each pixel which indicates when this pixel is removed. For example, the pixels on the first seam to be removed ( when mxn -> mx(n-1)) are labelled as 0, the pixels on the second seams are labelled 1, and etc. For the retarget part, once we know the target size, the image is reconstructed by only taking pixels that is labelled larger than the number of seams to be removed. For the enlargement, we duplicate all the pixels that has a label smaller than the number of seams. This will give a real-time resize experience.
+              </p>
+
+              <p>
+              One limitation of this approach is that the pre-process can not determine 2 dimension resize. Theoretically, this can be done in a similar approach but the order table is a mxmxnxn in size, which makes it impractical to store such a large auxiliary table for all the images. 
               </p>
                 <iframe src="https://drive.google.com/file/d/0B_t4gw-j_CWXRmVsMjRVN2ZIckE/preview" width="640" height="480"></iframe>
               </li>
@@ -198,7 +204,7 @@
               Below is a naive result of video seam carving.
               The first video is the original video and the second one is the video after seam carving.
               The result is not very perfect since we are running seam carving algorithm for each frame independently.
-              To get a better result, we shuold add relation between the seams in each frames.
+              To get a better result, we should add relation between the seams in each frames.
               </p>
               
                 <iframe src="https://drive.google.com/file/d/0B_t4gw-j_CWXMTJyaC1TZ1FYSHM/preview" width="640" height="480"></iframe>
@@ -208,7 +214,19 @@
 
             </ol>
 
+            <h2>Limitations and Future Works</h2>
+            <p>
+            There are several limitations in current implementation. 
+            </p>
 
+            <p>
+            First, currently, the seam chose to be removed is the continuous seams contains least amount of energy. While, this approach does not take in consideration that the new edge will introduce energy in new image. An alternative approach is to remove the continuous seam that introduces least amount of energy into the system. 
+            </p>
+
+            <p>
+            Second, the current implementation does not ‘recognize’ important objects. A future work is that we combine the energy evaluation with object detection algorithm. For example, after we get the energy map,  we can run a face detection on the original image and then increase the weights of pixels in face regions. Also, the segmentation algorithm can be used to expand the important region to the whole human body instead of just the face. This will give more content awareness of the resize process.
+
+            </p>
             <h2>References</h2>
 
             <ol>
