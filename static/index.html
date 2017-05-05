@@ -124,8 +124,8 @@
                 <p>
                   Suppose a resize task is to change a mxn image to m’xn’, where m’< m and n’< n. The solution is to remove m-m’ vertical seams and n-n’ horizontal seams. Since each pixel can be removed both by vertical or horizontal seams, the order seam removal of 2 dimensional resize matters. Do we remove all the vertical seams and then the horizontal? Or alternatively one by one? Or two by two? None of the proposed solution takes the change of the image into consideration although some of them works well enough most of time. In this implementation, we employed dynamic programming method to find the optimal remove order. Upon the request of a given size, which m-m’ columns and n-n’ rows to be removed, the order of removal is determined from the DP table built by trying out all combinations and the total computing time is O(m+n). This has a major advantage that the enumeration is time consuming. While, this can be advantage if the DP table is saved. The DP table is small in size by nature. Once the DP table is built and saved, if the user change her mind and wants to retarget the image to other size, we don’t have to recalculated table again. If few seams are to be removed, the optimal remove order can directly read from the table. If more seams are to be removed, we just update the DP table at lower cost.
                 </p>
-                <center><img src="imgs/final7.png" alt="" width="75%"></center>
-                <p style="text-align:center">Figure 8: Removalorder table</p>
+                <center><img src="imgs/final7.png" alt="" width="50%"></center>
+                <p style="text-align:center">Figure 8: Removal order table</p>
                 
                 <p>
                   The result of 2-D seam carving is shown in the following figure.
